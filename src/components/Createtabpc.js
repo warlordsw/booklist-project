@@ -20,24 +20,17 @@ const Createtabpc = () => {
   //state hooks
   const [list, setList] = useState([])
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState('')
 
   // Function for get all document data from Firestore database and map it.
   const getBookList = () => {
     const getDatabase = async () => {
-      try {
-        const snapshot = await bookData.firebase
-          .firestore()
-          .collection('books')
-          .get()
-        console.log(p)
-        const result = await snapshot.docs.map((item) => item.data())
-        setLoading(false)
-        setList(result)
-        setError('Booklist successfully called')
-      } catch (err) {
-        setError(err)
-      }
+      const snapshot = await bookData.firebase
+        .firestore()
+        .collection('books')
+        .get()
+      const result = await snapshot.docs.map((item) => item.data())
+      setLoading(false)
+      setList(result)
     }
     return getDatabase()
   }
@@ -173,9 +166,6 @@ const Createtabpc = () => {
             <h3>{info}</h3>
           </div>
         </div>
-      </div>
-      <div>
-        <h1 className='text-6xl text-center mt-10 text-white'>{error}</h1>
       </div>
       <div>
         {loading ? (
