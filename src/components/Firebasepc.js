@@ -1,26 +1,14 @@
 import React, { useState, useEffect, useContext } from 'react'
-import FirebaseContext from './../context/firebase'
-
-// //Function for get data from local storage - It is inactive now
-
-// const getLocalStorage = () => {
-//   let list = localStorage.getItem('list')
-//   if (list) {
-//     return JSON.parse(localStorage.getItem('list'))
-//   } else {
-//     return []
-//   }
-// }
+import FirebaseContext from '../context/firebase'
 
 // Render component - page content
-const Createtabpc = () => {
+const Firebasepc = () => {
   //useContext hook
   const bookData = useContext(FirebaseContext)
 
   //state hooks
   const [list, setList] = useState([])
   const [loading, setLoading] = useState(true)
-
   // Function for get all document data from Firestore database and map it.
   const getBookList = () => {
     const getDatabase = async () => {
@@ -105,10 +93,10 @@ const Createtabpc = () => {
   //   setList([])
   // }
 
-  // Render hook - It is working when rendering happens. - [list] means it is only working when list changes.
-  useEffect(() => {
-    localStorage.setItem('list', JSON.stringify(list))
-  }, [list])
+  // // Render hook - It is working when rendering happens. - [list] means it is only working when list changes.
+  // useEffect(() => {
+  //   localStorage.setItem('list', JSON.stringify(list))
+  // }, [list])
 
   // Render hook - [] means only working on initial state.
   useEffect(() => {
@@ -224,4 +212,4 @@ const Booklist = ({ items, removeSpecificBook }) => {
   )
 }
 
-export default Createtabpc
+export default Firebasepc
