@@ -1,10 +1,11 @@
+import Homemenupc from '../components/Homemenupc'
+
 import React from 'react'
-import Createtabpc from '../components/Createtabpc'
 
 const Home = () => {
   return (
     <>
-      <Createtabpc />
+      <Homemenupc />
     </>
   )
 }

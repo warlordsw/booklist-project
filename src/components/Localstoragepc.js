@@ -1,65 +1,24 @@
-import React, { useState, useEffect, useContext } from 'react'
-import FirebaseContext from './../context/firebase'
+import React, { useState, useEffect } from 'react'
 
-// //Function for get data from local storage - It is inactive now
+//Function for get data from local storage - It is inactive now
 
-// const getLocalStorage = () => {
-//   let list = localStorage.getItem('list')
-//   if (list) {
-//     return JSON.parse(localStorage.getItem('list'))
-//   } else {
-//     return []
-//   }
-// }
-
-// Render component - page content
-const Createtabpc = () => {
-  //useContext hook
-  const bookData = useContext(FirebaseContext)
-
-  //state hooks
-  const [list, setList] = useState([])
-  const [loading, setLoading] = useState(true)
-
-  // Function for get all document data from Firestore database and map it.
-  const getBookList = () => {
-    const getDatabase = async () => {
-      const snapshot = await bookData.firebase
-        .firestore()
-        .collection('books')
-        .get()
-      const result = await snapshot.docs.map((item) => item.data())
-      setLoading(false)
-      setList(result)
-    }
-    return getDatabase()
+const getLocalStorage = () => {
+  let list = localStorage.getItem('liste')
+  if (list) {
+    return JSON.parse(localStorage.getItem('liste'))
+  } else {
+    return []
   }
+}
 
-  // Function for delete all books from Firestore database documents.
-  const removeAllBooks = async () => {
-    const db = await bookData.firebase.firestore()
-    const getId = await db.collection('books').get()
-    const result = await getId.docs.map((item) => item.id)
-    for (let i = 0; i < result.length; i++) {
-      await db.collection('books').doc(`${result[i]}`).delete()
-    }
-    return await getBookList()
-  }
+const Localstoragepc = () => {
   //state hooks
+  const [list, setList] = useState(getLocalStorage)
+
   const [bookName, setBookName] = useState('')
   const [writerName, setWriterName] = useState('')
   const [pageNumber, setPageNumber] = useState('')
   const [info, setInfo] = useState('')
-
-  //Function for send data to Firestore when onSubmit. It is working in handleSubmit method
-  async function sendDatabase(firebase) {
-    await firebase.firestore().collection('books').doc(bookName).set({
-      id: new Date().getTime().toString(),
-      bookName: bookName,
-      writerName: writerName,
-      pageNumber: pageNumber,
-    })
-  }
 
   //Function for submit button
   const handleSubmit = (e) => {
@@ -81,40 +40,23 @@ const Createtabpc = () => {
       setWriterName('')
       setPageNumber('')
       setInfo('Book created')
-      sendDatabase(bookData.firebase)
-      getBookList()
     }
   }
 
-  // //Function for remove specific book from local storage - It is inactive now
-  // const removeBook = (id) => {
-  //   setList(list.filter((book) => book.id !== id))
-  // }
-
-  // Function for removing specific book from Firestore database.
-  const removeSpecificBook = async (id) => {
-    await bookData.firebase
-      .firestore()
-      .collection('books')
-      .doc(`${id}`)
-      .delete()
-    setList(list.filter((book) => book.bookName !== id))
+  //Function for remove specific book from local storage - It is inactive now
+  const removeSpecificBook = (id) => {
+    setList(list.filter((book) => book.id !== id))
   }
-  // // Function for clear all books from local storage - It is inactive now
-  // const clearAllBooks = () => {
-  //   setList([])
-  // }
+
+  // Function for clear all books from local storage - It is inactive now
+  const removeAllBooks = () => {
+    setList([])
+  }
 
   // Render hook - It is working when rendering happens. - [list] means it is only working when list changes.
   useEffect(() => {
-    localStorage.setItem('list', JSON.stringify(list))
+    localStorage.setItem('liste', JSON.stringify(list))
   }, [list])
-
-  // Render hook - [] means only working on initial state.
-  useEffect(() => {
-    getBookList()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
 
   return (
     <div>
@@ -168,11 +110,7 @@ const Createtabpc = () => {
         </div>
       </div>
       <div>
-        {loading ? (
-          <h1 className='text-6xl text-center mt-10 text-white'>Loading...</h1>
-        ) : (
-          <Booklist items={list} removeSpecificBook={removeSpecificBook} />
-        )}
+        <Booklist items={list} removeSpecificBook={removeSpecificBook} />
       </div>
       {list.length > 1 && (
         <div className='flex justify-center my-5'>
@@ -198,19 +136,19 @@ const Booklist = ({ items, removeSpecificBook }) => {
             <div key={item.id} className='p-2 m-2 bg-yellow-100 w-1/4'>
               <div className='p-1'>
                 <h5 className='font-semibold'>Book Name</h5>
-                <h3>{item.bookName}</h3>
+                <h3>{item.title}</h3>
               </div>
               <div className='p-1'>
                 <h5 className='font-semibold'>Writer Name</h5>
-                <h3>{item.writerName}</h3>
+                <h3>{item.writer}</h3>
               </div>
               <div className='p-1'>
                 <h5 className='font-semibold'>Total Page</h5>
-                <h3>{item.pageNumber}</h3>
+                <h3>{item.pageCount}</h3>
               </div>
               <div className='flex justify-end'>
                 <button
-                  onClick={() => removeSpecificBook(item.bookName)}
+                  onClick={() => removeSpecificBook(item.id)}
                   className='px-4 py-2 bg-red-500 rounded-full text-white'
                 >
                   Remove
@@ -224,4 +162,4 @@ const Booklist = ({ items, removeSpecificBook }) => {
   )
 }
 
-export default Createtabpc
+export default Localstoragepc
