@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import './index.css'
 import App from './App'
+import { HashRouter } from 'react-router-dom'
 import reportWebVitals from './reportWebVitals'
 import FirebaseContext from './context/firebase'
 import { firebase, FieldValue } from './lib/firebase'
@@ -9,7 +10,9 @@ import { firebase, FieldValue } from './lib/firebase'
 ReactDOM.render(
   <React.StrictMode>
     <FirebaseContext.Provider value={{ firebase, FieldValue }}>
-      <App />
+      <HashRouter>
+        <App />
+      </HashRouter>
     </FirebaseContext.Provider>
   </React.StrictMode>,
   document.getElementById('root')
