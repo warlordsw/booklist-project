@@ -31782,6 +31782,18 @@ body {
   background-color: rgb(163, 194, 235);
 }
 
+.link {
+  padding: 10px;
+  margin: 10px;
+  background-color: rgb(254, 243, 199);
+  width: 33%;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 250px;
+}
+
 @media (min-width: 640px) {
   .sm\:container {
     width: 100%;
