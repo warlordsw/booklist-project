@@ -3,6 +3,7 @@ import MongoDBHome from './pages/mongodbHome'
 import LocalStorage from './pages/localStorage'
 import { Route, Switch } from 'react-router'
 import Home from './pages/home'
+import LocalFile from './pages/localFile'
 
 function App() {
   return (
@@ -20,6 +21,9 @@ function App() {
           </Route>
           <Route exact path='/localstorage'>
             <LocalStorage />
+          </Route>
+          <Route exact path='/localfile'>
+            <LocalFile />
           </Route>
         </Switch>
       </div>
