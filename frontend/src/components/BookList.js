@@ -1,12 +1,6 @@
 import React from 'react'
 
-const BookList = ({
-  items,
-  removeSpecificBook,
-  removeAllBooks,
-  bookData,
-  setList,
-}) => {
+const BookList = ({ items, removeSpecificBook, removeAllBooks }) => {
   return (
     <div className='container mx-auto'>
       <div className='mt-20 flex flex-wrap items-center justify-center'>
@@ -27,9 +21,7 @@ const BookList = ({
               </div>
               <div className='flex justify-end'>
                 <button
-                  onClick={() =>
-                    removeSpecificBook(item.bookName, bookData, setList, items)
-                  }
+                  onClick={() => removeSpecificBook(item.id)}
                   className='px-4 py-2 bg-red-500 rounded-full text-white'
                 >
                   Remove
