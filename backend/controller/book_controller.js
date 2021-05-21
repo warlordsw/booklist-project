@@ -2,10 +2,12 @@ import fs from 'fs'
 
 export const createBook = (req, res) => {
   const book = req.body
+  console.log('createBook fonksiyonu', book)
   let data = JSON.stringify(book)
   fs.writeFile('../saveBooks.json', data, (err) => {
     if (err) throw err
-    console.log(`data saved`)
+    res.status(200).send({ status: 'success' })
+    //console.log(`data saved`)
   })
 }
 
@@ -14,17 +16,18 @@ export const getAllBooks = (req, res) => {
     if (err) throw err
     let allBooks = JSON.parse(data)
     res.status(200).json(allBooks)
-    console.log('read')
+    //console.log('read')
   })
 }
 
 export const removeSpecificBook = (req, res) => {
   const book = req.body
-  console.log(book)
+  console.log('removeBook fonksiyonu', book)
   let data = JSON.stringify(book)
   fs.writeFile('../saveBooks.json', data, (err) => {
     if (err) throw err
-    console.log(`data removed`)
+    res.status(200).send({ status: 'success' })
+    //console.log(`data removed`)
   })
 }
 
@@ -33,6 +36,7 @@ export const removeAll = (req, res) => {
   let data = JSON.stringify(book)
   fs.writeFile('../saveBooks.json', data, (err) => {
     if (err) throw err
-    console.log(`all data removed`)
+    res.status(200).send({ status: 'success' })
+    //console.log(`all data removed`)
   })
 }
