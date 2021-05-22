@@ -52,7 +52,7 @@ const LocalFile = () => {
     setList([])
     axios.post(
       'https://lit-temple-41224.herokuapp.com/books/localfile/removeall',
-      []
+      [{}]
     )
   }
 
