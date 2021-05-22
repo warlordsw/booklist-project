@@ -43,14 +43,17 @@ const LocalFile = () => {
   const removeSpecificBook = (id) => {
     setList(list.filter((book) => book.id !== id))
     axios.post(
-      'http://localhost:5000/books/localfile/removespecific',
+      'https://lit-temple-41224.herokuapp.com/books/localfile/removespecific',
       list.filter((book) => book.id !== id)
     )
   }
 
   const removeAllBooks = () => {
     setList([])
-    axios.post('http://localhost:5000/books/localfile/removeall', [])
+    axios.post(
+      'https://lit-temple-41224.herokuapp.com/books/localfile/removeall',
+      []
+    )
   }
 
   useEffect(() => {
