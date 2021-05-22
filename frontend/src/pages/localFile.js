@@ -33,7 +33,10 @@ const LocalFile = () => {
       setWriterName('')
       setPageNumber('')
       setInfo('Book created')
-      axios.post('http://localhost:5000/books/localfile', [...list, newBook])
+      axios.post('https://lit-temple-41224.herokuapp.com/books/localfile', [
+        ...list,
+        newBook,
+      ])
     }
   }
 
@@ -51,9 +54,11 @@ const LocalFile = () => {
   }
 
   useEffect(() => {
-    axios.get('http://localhost:5000/books/localfile').then((allBooks) => {
-      setList(allBooks.data)
-    })
+    axios
+      .get('https://lit-temple-41224.herokuapp.com/books/localfile')
+      .then((allBooks) => {
+        setList(allBooks.data)
+      })
   }, [])
 
   return (
