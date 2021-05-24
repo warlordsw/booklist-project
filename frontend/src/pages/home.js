@@ -7,7 +7,7 @@ export let pass = ''
 const Home = () => {
   useEffect(() => {
     axios
-      .get('https://lit-temple-41224.herokuapp.com/books/localfile/rambo')
+      .get('https://lit-temple-41224.herokuapp.com/books/denemeiki')
       .then((response) => {
         pass = response.data
       })
