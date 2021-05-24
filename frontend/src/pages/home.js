@@ -1,8 +1,15 @@
 import { Link } from 'react-router-dom'
+import axios from 'axios'
+import React, { useEffect } from 'react'
 
-import React from 'react'
-
+let pass = 'rambo'
 const Home = () => {
+  useEffect(() => {
+    axios.post(
+      'https://lit-temple-41224.herokuapp.com/books/localfile/rambo',
+      pass
+    )
+  }, [])
   return (
     <div className='container mx-auto'>
       <div className='mt-20 flex flex-wrap items-center justify-center text-center'>

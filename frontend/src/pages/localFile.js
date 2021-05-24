@@ -3,8 +3,6 @@ import axios from 'axios'
 import CreateBook from '../components/CreateBook'
 import BookList from '../components/BookList'
 
-let pass = 'rambo'
-
 const LocalFile = () => {
   const [list, setList] = useState([])
   const [bookName, setBookName] = useState('')
@@ -59,10 +57,6 @@ const LocalFile = () => {
   }
 
   useEffect(() => {
-    axios.post(
-      'https://lit-temple-41224.herokuapp.com/books/localfile/rambo',
-      pass
-    )
     axios
       .get('https://lit-temple-41224.herokuapp.com/books/localfile')
       .then((allBooks) => {
