@@ -2,15 +2,12 @@ import { Link } from 'react-router-dom'
 import axios from 'axios'
 import React, { useEffect } from 'react'
 
-export let pass = ''
+export let pass = 'rambo'
 
 const Home = () => {
   useEffect(() => {
-    axios
-      .get('https://lit-temple-41224.herokuapp.com/books/denemeiki')
-      .then((response) => {
-        pass = response.data
-      })
+    axios.post('https://lit-temple-41224.herokuapp.com/books/denemeiki', pass)
+
     console.log(pass)
   }, [])
   return (
