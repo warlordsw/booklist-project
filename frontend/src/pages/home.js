@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import axios from 'axios'
 import React, { useEffect } from 'react'
 
-export let pass = 'rambo'
+export let { pass } = 'rambo'
 
 const Home = () => {
   useEffect(() => {
