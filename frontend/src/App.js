@@ -1,14 +1,11 @@
-import FirebaseHome from './pages/firebaseHome'
-import MongoDBHome from './pages/mongodbHome'
-import LocalStorage from './pages/localStorage'
-import { Route, Switch } from 'react-router'
-import Home from './pages/home'
-import LocalFile from './pages/localFile'
-
+import { Switch } from 'react-router'
+import { AuthProvider } from './Context'
+import AppRoute from './components/AppRoutes'
+import routes from './config/routes.js'
 function App() {
   return (
-    <>
-      <div className='container mx-auto '>
+    <AuthProvider>
+      {/* <div className='container mx-auto '>
         <Switch>
           <Route exact path='/'>
             <Home />
@@ -16,8 +13,11 @@ function App() {
           <Route exact path='/firebase'>
             <FirebaseHome />
           </Route>
-          <Route exact path='/mongodb'>
-            <MongoDBHome />
+          <Route exact path='/login'>
+            <Login />
+          </Route>
+          <Route exact path='/register'>
+            <Register />
           </Route>
           <Route exact path='/localstorage'>
             <LocalStorage />
@@ -25,9 +25,23 @@ function App() {
           <Route exact path='/localfile'>
             <LocalFile />
           </Route>
+          <Route exact path='/users/home'>
+            <Mongodbhome />
+          </Route>
         </Switch>
-      </div>
-    </>
+      </div> */}
+      <Switch>
+        {routes.map((route) => (
+          <AppRoute
+            key={route.path}
+            exact
+            path={route.path}
+            component={route.component}
+            isPrivate={route.isPrivate}
+          />
+        ))}
+      </Switch>
+    </AuthProvider>
   )
 }
 
