@@ -1,10 +1,19 @@
-import React, { useEffect, useState } from 'react'
-import axios from 'axios'
-import CreateBook from '../components/CreateBook'
-import BookList from '../components/BookList'
+import React, { useState, useEffect } from 'react'
+import BookList from '../../components/BookList'
+import CreateBook from '../../components/CreateBook'
 
-const LocalFile = () => {
-  const [list, setList] = useState([])
+const getLocalStorage = () => {
+  let list = localStorage.getItem('liste')
+  if (list) {
+    return JSON.parse(localStorage.getItem('liste'))
+  } else {
+    return []
+  }
+}
+
+const LocalStorage = () => {
+  //state hooks
+  const [list, setList] = useState(getLocalStorage)
   const [bookName, setBookName] = useState('')
   const [writerName, setWriterName] = useState('')
   const [pageNumber, setPageNumber] = useState('')
@@ -26,43 +35,29 @@ const LocalFile = () => {
         writerName: writerName,
         pageNumber: pageNumber,
       }
-
       setList([...list, newBook])
 
       setBookName('')
       setWriterName('')
       setPageNumber('')
       setInfo('Book created')
-      axios.post('https://lit-temple-41224.herokuapp.com/books/localfile', [
-        ...list,
-        newBook,
-      ])
     }
   }
 
+  //Function for remove specific book from local storage - It is inactive now
   const removeSpecificBook = (id) => {
     setList(list.filter((book) => book.id !== id))
-    axios.post(
-      'https://lit-temple-41224.herokuapp.com/books/localfile/removespecific',
-      list.filter((book) => book.id !== id)
-    )
   }
 
+  // Function for clear all books from local storage - It is inactive now
   const removeAllBooks = () => {
     setList([])
-    axios.post(
-      'https://lit-temple-41224.herokuapp.com/books/localfile/removeall',
-      [{}]
-    )
   }
 
+  // Render hook - It is working when rendering happens. - [list] means it is only working when list changes.
   useEffect(() => {
-    axios
-      .get('https://lit-temple-41224.herokuapp.com/books/localfile')
-      .then((allBooks) => {
-        setList(allBooks.data)
-      })
-  }, [])
+    localStorage.setItem('liste', JSON.stringify(list))
+  }, [list])
 
   return (
     <div>
@@ -76,6 +71,7 @@ const LocalFile = () => {
         setWriterName={setWriterName}
         setPageNumber={setPageNumber}
       />
+
       <BookList
         items={list}
         removeSpecificBook={removeSpecificBook}
@@ -85,4 +81,4 @@ const LocalFile = () => {
   )
 }
 
-export default LocalFile
+export default LocalStorage

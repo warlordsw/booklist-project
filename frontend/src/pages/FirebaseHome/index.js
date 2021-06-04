@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react'
-import BookList from '../components/BookList'
-import CreateBook from '../components/CreateBook'
-import FirebaseContext from '../context/firebase'
+import BookList from '../../components/BookList'
+import CreateBook from '../../components/CreateBook'
+import FirebaseContext from '../../Context/firebase'
 
 const FireBaseHome = () => {
   //useContext hook
