@@ -72,6 +72,14 @@ export const AuthReducer = (initialState, action) => {
         ...initialState,
         loading: false,
       }
+    case 'REMOVE_ALL_BOOKS':
+      return {
+        ...initialState,
+      }
+    case 'REMOVE_SPECIFIC_BOOK':
+      return {
+        ...initialState,
+      }
     default:
       throw new Error(`Unhandled action type: ${action.type}`)
   }
