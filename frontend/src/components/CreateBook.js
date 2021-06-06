@@ -13,7 +13,7 @@ const CreateBook = ({
   return (
     <div>
       <div>
-        <nav className='bg-blue-500  text-center text-white px-6 py-3  mx-2'>
+        <nav className='bg-blue-500  text-center text-white px-6 py-3'>
           Create Book
         </nav>
       </div>

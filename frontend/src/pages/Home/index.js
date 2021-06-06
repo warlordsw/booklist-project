@@ -20,7 +20,7 @@ const Home = () => {
             </div>
           </div>
         </Link>
-        <Link to='/mongodb' className='link'>
+        <Link to='/login' className='link'>
           <div>
             <div>
               <h2>MongoDB</h2>

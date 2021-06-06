@@ -4,7 +4,7 @@ import './index.css'
 import App from './App'
 import { HashRouter } from 'react-router-dom'
 import reportWebVitals from './reportWebVitals'
-import FirebaseContext from './context/firebase'
+import FirebaseContext from './Context/firebase'
 import { firebase, FieldValue } from './lib/firebase'
 
 ReactDOM.render(
