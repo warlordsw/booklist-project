@@ -1,4 +1,11 @@
-import { loginUser, logout, registerUser, createBook } from './actions'
+import {
+  loginUser,
+  logout,
+  registerUser,
+  createBook,
+  removeAll,
+  removeSpecific,
+} from './actions'
 import { AuthProvider, useAuthDispatch, useAuthState } from './context'
 
 export {
@@ -9,4 +16,6 @@ export {
   useAuthState,
   registerUser,
   createBook,
+  removeAll,
+  removeSpecific,
 }
