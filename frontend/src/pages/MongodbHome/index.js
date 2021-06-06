@@ -5,6 +5,8 @@ import {
   logout,
   useAuthState,
   createBook,
+  removeAll,
+  removeSpecific,
 } from '../../Context'
 import CreateBook from '../../components/CreateBook'
 import BookList from '../../components/BookList'
@@ -38,21 +40,50 @@ const Mongodbhome = () => {
     } else {
       id = new Date().getTime().toString()
       const newBook = {
-        _id: userDetails.userId,
         id: id,
         bookName: bookName,
         writerName: writerName,
         pageNumber: pageNumber,
       }
-      setList([...list, newBook])
-      setBookName('')
-      setWriterName('')
-      setPageNumber('')
-      setInfo('Book created')
 
       try {
-        await createBook(dispatch, newBook)
-      } catch (error) {}
+        await createBook(dispatch, {
+          newBook: newBook,
+          _id: userDetails.userId,
+        })
+        console.log(newBook)
+        setList([...list, newBook])
+        setBookName('')
+        setWriterName('')
+        setPageNumber('')
+        setInfo('Book created')
+        console.log(...list, 'sadece list')
+        console.log([...list, newBook], 'list ve newBook')
+      } catch (error) {
+        console.log(error)
+      }
+    }
+  }
+
+  const removeAllBooks = async () => {
+    try {
+      await removeAll(dispatch, { emptyArray: [], _id: userDetails.userId })
+      setList([])
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const removeSpecificBook = async (id) => {
+    console.log(list.filter((book) => book.id === id)[0], 'list filter')
+    try {
+      await removeSpecific(dispatch, {
+        createdBooks: list.filter((book) => book.id === id)[0],
+        _id: userDetails.userId,
+      })
+      setList(list.filter((book) => book.id !== id))
+    } catch (error) {
+      console.log(error)
     }
   }
 
@@ -90,7 +121,11 @@ const Mongodbhome = () => {
         {loading ? (
           <h1 className='text-6xl text-center mt-10 text-white'>Loading...</h1>
         ) : (
-          <BookList items={list} />
+          <BookList
+            items={list}
+            removeAllBooks={removeAllBooks}
+            removeSpecificBook={removeSpecificBook}
+          />
         )}
       </div>
     </div>
