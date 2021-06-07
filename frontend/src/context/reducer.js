@@ -65,7 +65,6 @@ export const AuthReducer = (initialState, action) => {
     case 'REQUEST_CREATE_BOOK':
       return {
         ...initialState,
-        loading: true,
       }
     case 'CREATE_BOOK_SUCCESS':
       return {
