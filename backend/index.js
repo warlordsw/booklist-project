@@ -4,7 +4,12 @@ import userRoutes from './routes/user.js'
 import cors from 'cors'
 import mongoose from 'mongoose'
 const app = express()
-app.use(cors({ origin: 'http://localhost:3000', credentials: true }))
+app.use(
+  cors({
+    origin: 'https://booklist-project-21.netlify.app',
+    credentials: true,
+  })
+)
 
 app.use(express.json({ extended: false }))
 
