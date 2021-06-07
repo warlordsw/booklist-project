@@ -42,7 +42,6 @@ export const registerUser = async (dispatch, loginPayload) => {
     dispatch({ type: 'REQUEST_REGISTER' })
     let response = await fetch(`${ROOT_URL}/users/register`, requestOptions)
     let data = await response.json()
-    console.log(data, 'request register data')
 
     if (data.result) {
       localStorage.setItem('currentUser', JSON.stringify(data))
@@ -59,7 +58,6 @@ export const registerUser = async (dispatch, loginPayload) => {
 export const logout = async (dispatch) => {
   dispatch({ type: 'LOGOUT' })
   localStorage.removeItem('currentUser')
-  localStorage.removeItem('token')
 }
 
 //create book in database and localstorage
@@ -75,7 +73,9 @@ export const createBook = async (dispatch, createPayload) => {
     dispatch({ type: 'REQUEST_CREATE_BOOK' })
     let response = await fetch(`${ROOT_URL}/users/books`, requestOptions)
     let data = await response.json()
-    if (data) {
+    if (data.msg) {
+      return
+    } else {
       let localStorageData = localStorage.getItem('currentUser')
       let parseLocalStorageData = JSON.parse(localStorageData)
       parseLocalStorageData.result.createdBooks = data
@@ -102,7 +102,9 @@ export const removeAll = async (dispatch, removeAllPayload) => {
       requestOptions
     )
     let data = await response.json()
-    if (data) {
+    if (data.msg) {
+      return
+    } else {
       let localStorageData = localStorage.getItem('currentUser')
       let parseLocalStorageData = JSON.parse(localStorageData)
       parseLocalStorageData.result.createdBooks = data
@@ -128,9 +130,9 @@ export const removeSpecific = async (dispatch, removeSpecificPayload) => {
       requestOptions
     )
     let data = await response.json()
-    console.log(data)
-
-    if (data) {
+    if (data.msg) {
+      return
+    } else {
       let localStorageData = localStorage.getItem('currentUser')
       let parseLocalStorageData = JSON.parse(localStorageData)
       parseLocalStorageData.result.createdBooks = data

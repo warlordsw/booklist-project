@@ -31,6 +31,7 @@ const Mongodbhome = () => {
   const history = useHistory()
   const userDetails = useAuthState()
   const dispatch = useAuthDispatch()
+
   const handleSubmit = async (e) => {
     e.preventDefault()
 
@@ -47,18 +48,22 @@ const Mongodbhome = () => {
       }
 
       try {
-        await createBook(dispatch, {
+        let response = await createBook(dispatch, {
           newBook: newBook,
           _id: userDetails.userId,
+          token: userDetails.token,
         })
-        console.log(newBook)
+        if (!response) {
+          localStorage.removeItem('currentUser')
+          history.push('/login')
+          return
+        }
+
         setList([...list, newBook])
         setBookName('')
         setWriterName('')
         setPageNumber('')
         setInfo('Book created')
-        console.log(...list, 'sadece list')
-        console.log([...list, newBook], 'list ve newBook')
       } catch (error) {
         console.log(error)
       }
@@ -67,7 +72,17 @@ const Mongodbhome = () => {
 
   const removeAllBooks = async () => {
     try {
-      await removeAll(dispatch, { emptyArray: [], _id: userDetails.userId })
+      let response = await removeAll(dispatch, {
+        emptyArray: [],
+        _id: userDetails.userId,
+        token: userDetails.token,
+      })
+      if (!response) {
+        localStorage.removeItem('currentUser')
+        history.push('/login')
+        return
+      }
+
       setList([])
     } catch (error) {
       console.log(error)
@@ -75,12 +90,18 @@ const Mongodbhome = () => {
   }
 
   const removeSpecificBook = async (id) => {
-    console.log(list.filter((book) => book.id === id)[0], 'list filter')
     try {
-      await removeSpecific(dispatch, {
+      let response = await removeSpecific(dispatch, {
         createdBooks: list.filter((book) => book.id === id)[0],
         _id: userDetails.userId,
+        token: userDetails.token,
       })
+
+      if (!response) {
+        localStorage.removeItem('currentUser')
+        history.push('/login')
+        return
+      }
       setList(list.filter((book) => book.id !== id))
     } catch (error) {
       console.log(error)
