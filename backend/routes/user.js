@@ -12,8 +12,8 @@ const router = express.Router()
 router.post('/login', login)
 router.post('/register', register)
 //router.get('/books', getBooks)
-router.post('/books', createBook)
-router.post('/books/removeall', removeAllBooks)
-router.post('/books/removespecific', removeSpecificBook)
+router.post('/books', auth, createBook)
+router.post('/books/removeall', auth, removeAllBooks)
+router.post('/books/removespecific', auth, removeSpecificBook)
 
 export default router
