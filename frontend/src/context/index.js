@@ -7,6 +7,7 @@ import {
   removeSpecific,
 } from './actions'
 import { AuthProvider, useAuthDispatch, useAuthState } from './context'
+import { FirebaseContext } from './firebase'
 
 export {
   loginUser,
@@ -18,4 +19,5 @@ export {
   createBook,
   removeAll,
   removeSpecific,
+  FirebaseContext,
 }
