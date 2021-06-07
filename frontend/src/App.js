@@ -1,5 +1,5 @@
 import { Switch } from 'react-router'
-import { AuthProvider } from './Context'
+import { AuthProvider } from './context'
 import AppRoute from './components/AppRoutes'
 import routes from './config/routes.js'
 function App() {
