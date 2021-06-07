@@ -15,7 +15,6 @@ import jwt from 'jsonwebtoken'
 
 export const createBook = async (req, res) => {
   const { _id, newBook } = req.body
-
   const existingId = { _id: _id }
 
   try {
@@ -54,7 +53,6 @@ export const removeAllBooks = async (req, res) => {
 
 export const removeSpecificBook = async (req, res) => {
   const { createdBooks, _id } = req.body
-  console.log(createdBooks)
   const existingId = { _id: _id }
 
   try {
