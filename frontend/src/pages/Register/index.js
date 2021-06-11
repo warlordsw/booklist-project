@@ -39,64 +39,63 @@ const Register = () => {
       <Auth />
       <div>
         <div className='bg-red-200 mx-auto w-96 rounded-lg flex justify-center mt-20'>
-          <div>
-            <div className='p-3 text-center'>
-              <h6>Username </h6>
-              <input
-                onChange={handleChange}
-                name='userName'
-                className='rounded-md'
-                type='text'
-                placeholder='Enter Username'
-                disabled={loading}
-              />
-            </div>
-            <div className='p-3 text-center'>
-              <h6>Email </h6>
-              <input
-                onChange={handleChange}
-                name='email'
-                className='rounded-md'
-                type='email'
-                placeholder='Enter Email'
-                disabled={loading}
-              />
-            </div>
-            <div className='p-3 text-center'>
-              <h6>Password</h6>
-              <input
-                onChange={handleChange}
-                name='password'
-                className='rounded-md'
-                type='password'
-                placeholder='Enter Password'
-                disabled={loading}
-              />
-            </div>
-            <div className='p-3 text-center'>
-              <h6>Confirm Password</h6>
-              <input
-                onChange={handleChange}
-                name='confirmPassword'
-                className='rounded-md'
-                type='password'
-                placeholder='Enter Password'
-                disabled={loading}
-              />
-            </div>
-            <div className='flex justify-center p-3'>
-              <form action='http://localhost:3000/users/auth'>
+          <form onSubmit={handleSubmit}>
+            <div>
+              <div className='p-3 text-center'>
+                <h6>Username </h6>
+                <input
+                  onChange={handleChange}
+                  name='userName'
+                  className='rounded-md'
+                  type='text'
+                  placeholder='Enter Username'
+                  disabled={loading}
+                />
+              </div>
+              <div className='p-3 text-center'>
+                <h6>Email </h6>
+                <input
+                  onChange={handleChange}
+                  name='email'
+                  className='rounded-md'
+                  type='email'
+                  placeholder='Enter Email'
+                  disabled={loading}
+                />
+              </div>
+              <div className='p-3 text-center'>
+                <h6>Password</h6>
+                <input
+                  onChange={handleChange}
+                  name='password'
+                  className='rounded-md'
+                  type='password'
+                  placeholder='Enter Password'
+                  disabled={loading}
+                />
+              </div>
+              <div className='p-3 text-center'>
+                <h6>Confirm Password</h6>
+                <input
+                  onChange={handleChange}
+                  name='confirmPassword'
+                  className='rounded-md'
+                  type='password'
+                  placeholder='Enter Password'
+                  disabled={loading}
+                />
+              </div>
+              <div className='flex justify-center p-3'>
                 <button
-                  onClick={handleSubmit}
                   className='bg-blue-500 py-3 px-6 rounded-full text-white'
                   disabled={loading}
                 >
                   Register
                 </button>
-              </form>
+              </div>
+              <div className='p-3 text-center  text-white'></div>
             </div>
-            <div className='p-3 text-center  text-white'></div>
-          </div>
+          </form>
         </div>
       </div>
     </div>
