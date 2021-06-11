@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Auth from '../../components/Auth'
 import { useHistory } from 'react-router-dom'
-import { registerUser, useAuthDispatch, useAuthState } from '../../Context'
+import { registerUser, useAuthDispatch, useAuthState } from '../../context'
 
 const initialState = {
   userName: '',

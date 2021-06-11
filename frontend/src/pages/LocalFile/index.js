@@ -33,17 +33,17 @@ const LocalFile = () => {
       setWriterName('')
       setPageNumber('')
       setInfo('Book created')
-      axios.post('https://lit-temple-41224.herokuapp.com/books/localfile', [
-        ...list,
-        newBook,
-      ])
+      axios.post(
+        'https://whispering-island-87382.herokuapp.com/books/localfile',
+        [...list, newBook]
+      )
     }
   }
 
   const removeSpecificBook = (id) => {
     setList(list.filter((book) => book.id !== id))
     axios.post(
-      'https://lit-temple-41224.herokuapp.com/books/localfile/removespecific',
+      'https://whispering-island-87382.herokuapp.com/books/localfile/removespecific',
       list.filter((book) => book.id !== id)
     )
   }
@@ -51,14 +51,14 @@ const LocalFile = () => {
   const removeAllBooks = () => {
     setList([])
     axios.post(
-      'https://lit-temple-41224.herokuapp.com/books/localfile/removeall',
+      'https://whispering-island-87382.herokuapp.com/books/localfile/removeall',
       [{}]
     )
   }
 
   useEffect(() => {
     axios
-      .get('https://lit-temple-41224.herokuapp.com/books/localfile')
+      .get('https://whispering-island-87382.herokuapp.com/books/localfile')
       .then((allBooks) => {
         setList(allBooks.data)
       })

@@ -7,7 +7,7 @@ import {
   createBook,
   removeAll,
   removeSpecific,
-} from '../../Context'
+} from '../../context'
 import CreateBook from '../../components/CreateBook'
 import BookList from '../../components/BookList'
 

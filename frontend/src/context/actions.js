@@ -1,4 +1,4 @@
-const ROOT_URL = 'http://localhost:5000'
+const ROOT_URL = 'https://whispering-island-87382.herokuapp.com'
 
 //login user and pull user info from database
 

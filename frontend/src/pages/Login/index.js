@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Auth from '../../components/Auth'
 import { useHistory } from 'react-router-dom'
 //import { login } from '../api'
-import { loginUser, useAuthDispatch, useAuthState } from '../../Context'
+import { loginUser, useAuthDispatch, useAuthState } from '../../context'
 const initialState = { email: '', password: '' }
 const Login = () => {
   const [loginData, setLoginData] = useState(initialState)
