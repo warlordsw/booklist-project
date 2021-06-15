@@ -18,29 +18,53 @@ const LocalStorage = () => {
   const [writerName, setWriterName] = useState('')
   const [pageNumber, setPageNumber] = useState('')
   const [info, setInfo] = useState('')
+  const [image, setImage] = useState('')
+  //const [uploadUrl, setUploadUrl] = useState('')
   let id
 
   //Function for submit button
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-
     // conditions for fill the blanks
-    if (!bookName || !writerName || !pageNumber) {
+    if (!bookName || !writerName || !pageNumber || !image) {
       setInfo('Please fill the blanks')
     } else {
-      id = new Date().getTime().toString()
-      const newBook = {
-        id: id,
-        bookName: bookName,
-        writerName: writerName,
-        pageNumber: pageNumber,
-      }
-      setList([...list, newBook])
+      try {
+        const data = new FormData()
+        data.append('file', image)
+        data.append('upload_preset', 'book-list-project')
+        data.append('cloud_name', 'book-list')
+        let response = await fetch(
+          'https://api.cloudinary.com/v1_1/book-list/image/upload',
+          {
+            method: 'POST',
+            body: data,
+          }
+        )
+        //console.log(uploadUrl, 'responsetan once')
+        let result = await response.json()
+        // console.log(result.url, 'sonuç geldi')
+        // console.log(uploadUrl, 'responsedan sonra')
+        const uploadResult = result.url
+        id = new Date().getTime().toString()
+        const newBook = {
+          id: id,
+          bookName: bookName,
+          writerName: writerName,
+          pageNumber: pageNumber,
+          uploadUrl: uploadResult,
+        }
 
-      setBookName('')
-      setWriterName('')
-      setPageNumber('')
-      setInfo('Book created')
+        setList([...list, newBook])
+        setBookName('')
+        setWriterName('')
+        setPageNumber('')
+        setInfo('Book created')
+        setImage('')
+        //console.log(uploadUrl, 'en son')
+      } catch (error) {
+        console.log(error)
+      }
     }
   }
 
@@ -70,6 +94,7 @@ const LocalStorage = () => {
         setBookName={setBookName}
         setWriterName={setWriterName}
         setPageNumber={setPageNumber}
+        setImage={setImage}
       />
 
       <BookList
