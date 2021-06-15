@@ -9,6 +9,7 @@ const CreateBook = ({
   setBookName,
   setWriterName,
   setPageNumber,
+  setImage,
 }) => {
   return (
     <div>
@@ -49,6 +50,17 @@ const CreateBook = ({
                 type='number'
                 placeholder='Page Number'
               />
+            </div>
+            <div className='p-3 text-center'>
+              <div>
+                <h6>Upload Image</h6>
+              </div>
+              <div className='p-3'>
+                <input
+                  type='file'
+                  onChange={(e) => setImage(e.target.files[0])}
+                />
+              </div>
             </div>
             <div className='flex justify-center p-3'>
               <button className='bg-blue-500 py-3 px-6 rounded-full text-white'>

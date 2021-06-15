@@ -7,15 +7,22 @@ const BookList = ({ items, removeSpecificBook, removeAllBooks }) => {
         {items.map((item) => {
           return (
             <div key={item.id} className='p-2 m-2 bg-yellow-100 w-1/4'>
-              <div className='p-1'>
+              <div className='p-1 m-1 flex justify-center'>
+                <img
+                  className='object-contain h-52 w-52'
+                  src={item.uploadUrl}
+                  alt='some img'
+                />
+              </div>
+              <div className='p-1 m-1'>
                 <h5 className='font-semibold'>Book Name</h5>
                 <h3>{item.bookName}</h3>
               </div>
-              <div className='p-1'>
+              <div className='p-1 m-1'>
                 <h5 className='font-semibold'>Writer Name</h5>
                 <h3>{item.writerName}</h3>
               </div>
-              <div className='p-1'>
+              <div className='p-1 m-1'>
                 <h5 className='font-semibold'>Total Page</h5>
                 <h3>{item.pageNumber}</h3>
               </div>
