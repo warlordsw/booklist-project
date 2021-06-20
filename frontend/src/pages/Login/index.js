@@ -32,12 +32,13 @@ const Login = () => {
   return (
     <div>
       <Auth />
-      <div className='bg-red-200 mx-auto w-96 rounded-lg flex justify-center mt-20'>
+      <div className='bg-red-200 mx-auto w-96 rounded-lg  justify-center mt-20'>
         <form onSubmit={handleSubmit}>
           <div>
-            <div className='p-3 text-center'>
-              <h6>Email </h6>
+            <div className='px-5 py-2 mx-16 text-center'>
+              <label htmlFor='email-input'>Email </label>
               <input
+                id='email-input'
                 name='email'
                 onChange={handleChange}
                 className='rounded-md'
@@ -46,9 +47,10 @@ const Login = () => {
                 disabled={loading}
               />
             </div>
-            <div className='p-3 text-center'>
-              <h6>Password</h6>
+            <div className='px-5 py-2 mx-16 text-center'>
+              <label htmlFor='password-input'>Password</label>
               <input
+                id='password-input'
                 name='password'
                 onChange={handleChange}
                 className='rounded-md'

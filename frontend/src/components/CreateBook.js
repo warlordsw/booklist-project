@@ -18,12 +18,13 @@ const CreateBook = ({
           Create Book
         </nav>
       </div>
-      <div className='bg-red-200 mx-auto w-96 rounded-lg flex justify-center mt-20'>
+      <div className='bg-red-200 mx-auto w-96 rounded-lg justify-center mt-20 '>
         <form onSubmit={handleSubmit}>
           <div>
-            <div className='p-3 text-center'>
-              <h6>Enter Book Name</h6>
+            <div className='p-3 mx-8 text-center'>
+              <label htmlFor='book-name'>Enter Book Name</label>
               <input
+                id='book-name'
                 value={bookName}
                 onChange={(e) => setBookName(e.target.value)}
                 className='rounded-md'
@@ -31,9 +32,10 @@ const CreateBook = ({
                 placeholder='Book Name'
               />
             </div>
-            <div className='p-3 text-center'>
-              <h6>Enter Writer Name</h6>
+            <div className='p-3 mx-8 text-center'>
+              <label htmlFor='writer-name'>Enter Writer Name</label>
               <input
+                id='writer-name'
                 value={writerName}
                 onChange={(e) => setWriterName(e.target.value)}
                 className='rounded-md'
@@ -41,9 +43,10 @@ const CreateBook = ({
                 placeholder='Writer Name'
               />
             </div>
-            <div className='p-3 text-center'>
-              <h6>Enter Total Page Number </h6>
+            <div className='p-3 mx-8 text-center'>
+              <label htmlFor='page-number'>Enter Total Page Number</label>
               <input
+                id='page-number'
                 value={pageNumber}
                 onChange={(e) => setPageNumber(e.target.value)}
                 className='rounded-md'
@@ -51,12 +54,13 @@ const CreateBook = ({
                 placeholder='Page Number'
               />
             </div>
-            <div className='p-3 text-center'>
+            <div className='p-3 mx-8 text-center'>
               <div>
-                <h6>Upload Image</h6>
+                <label htmlFor='upload-image'>Upload Image</label>
               </div>
               <div className='p-3'>
                 <input
+                  id='upload-image'
                   type='file'
                   onChange={(e) => setImage(e.target.files[0])}
                 />
