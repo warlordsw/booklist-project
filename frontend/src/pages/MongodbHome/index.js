@@ -23,9 +23,11 @@ const getLocalStorage = () => {
 const Mongodbhome = () => {
   const [list, setList] = useState(getLocalStorage)
   const [loading, setLoading] = useState(false)
-  const [bookName, setBookName] = useState('')
-  const [writerName, setWriterName] = useState('')
-  const [pageNumber, setPageNumber] = useState('')
+  const [bookProperties, setBookProperties] = useState({
+    bookName: '',
+    writerName: '',
+    pageNumber: '',
+  })
   const [info, setInfo] = useState('')
   let id
   const history = useHistory()
@@ -36,15 +38,19 @@ const Mongodbhome = () => {
     e.preventDefault()
 
     // conditions for fill the blanks
-    if (!bookName || !writerName || !pageNumber) {
+    if (
+      !bookProperties.bookName ||
+      !bookProperties.writerName ||
+      !bookProperties.pageNumber
+    ) {
       setInfo('Please fill the blanks')
     } else {
       id = new Date().getTime().toString()
       const newBook = {
         id: id,
-        bookName: bookName,
-        writerName: writerName,
-        pageNumber: pageNumber,
+        bookName: bookProperties.bookName,
+        writerName: bookProperties.writerName,
+        pageNumber: bookProperties.pageNumber,
       }
 
       try {
@@ -60,9 +66,7 @@ const Mongodbhome = () => {
         }
 
         setList([...list, newBook])
-        setBookName('')
-        setWriterName('')
-        setPageNumber('')
+        setBookProperties({ bookName: '', writerName: '', pageNumber: '' })
         setInfo('Book created')
       } catch (error) {
         console.log(error)
@@ -131,13 +135,9 @@ const Mongodbhome = () => {
       <div>
         <CreateBook
           info={info}
-          bookName={bookName}
-          writerName={writerName}
-          pageNumber={pageNumber}
           handleSubmit={handleSubmit}
-          setBookName={setBookName}
-          setWriterName={setWriterName}
-          setPageNumber={setPageNumber}
+          bookProperties={bookProperties}
+          setBookProperties={setBookProperties}
         />
         {loading ? (
           <h1 className='text-6xl text-center mt-10 text-white'>Loading...</h1>
