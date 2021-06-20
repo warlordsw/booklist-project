@@ -41,10 +41,7 @@ const LocalStorage = () => {
             body: data,
           }
         )
-        //console.log(uploadUrl, 'responsetan once')
         let result = await response.json()
-        // console.log(result.url, 'sonuç geldi')
-        // console.log(uploadUrl, 'responsedan sonra')
         const uploadResult = result.url
         id = new Date().getTime().toString()
         const newBook = {
@@ -61,7 +58,6 @@ const LocalStorage = () => {
         setPageNumber('')
         setInfo('Book created')
         setImage('')
-        //console.log(uploadUrl, 'en son')
       } catch (error) {
         console.log(error)
       }
