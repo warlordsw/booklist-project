@@ -1,15 +1,11 @@
 import React from 'react'
 
 const CreateBook = ({
-  bookName,
-  writerName,
-  pageNumber,
   handleSubmit,
   info,
-  setBookName,
-  setWriterName,
-  setPageNumber,
   setImage,
+  setBookProperties,
+  bookProperties,
 }) => {
   return (
     <div>
@@ -25,8 +21,14 @@ const CreateBook = ({
               <label htmlFor='book-name'>Enter Book Name</label>
               <input
                 id='book-name'
-                value={bookName}
-                onChange={(e) => setBookName(e.target.value)}
+                name='bookName'
+                value={bookProperties.bookName}
+                onChange={(e) =>
+                  setBookProperties({
+                    ...bookProperties,
+                    [e.target.name]: e.target.value,
+                  })
+                }
                 className='rounded-md'
                 type='text'
                 placeholder='Book Name'
@@ -36,8 +38,14 @@ const CreateBook = ({
               <label htmlFor='writer-name'>Enter Writer Name</label>
               <input
                 id='writer-name'
-                value={writerName}
-                onChange={(e) => setWriterName(e.target.value)}
+                name='writerName'
+                value={bookProperties.writerName}
+                onChange={(e) =>
+                  setBookProperties({
+                    ...bookProperties,
+                    [e.target.name]: e.target.value,
+                  })
+                }
                 className='rounded-md'
                 type='text'
                 placeholder='Writer Name'
@@ -47,8 +55,14 @@ const CreateBook = ({
               <label htmlFor='page-number'>Enter Total Page Number</label>
               <input
                 id='page-number'
-                value={pageNumber}
-                onChange={(e) => setPageNumber(e.target.value)}
+                name='pageNumber'
+                value={bookProperties.pageNumber}
+                onChange={(e) =>
+                  setBookProperties({
+                    ...bookProperties,
+                    [e.target.name]: e.target.value,
+                  })
+                }
                 className='rounded-md'
                 type='number'
                 placeholder='Page Number'

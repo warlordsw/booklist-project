@@ -5,9 +5,11 @@ import BookList from '../../components/BookList'
 
 const LocalFile = () => {
   const [list, setList] = useState([])
-  const [bookName, setBookName] = useState('')
-  const [writerName, setWriterName] = useState('')
-  const [pageNumber, setPageNumber] = useState('')
+  const [bookProperties, setBookProperties] = useState({
+    bookName: '',
+    writerName: '',
+    pageNumber: '',
+  })
   const [info, setInfo] = useState('')
   let id
 
@@ -16,22 +18,22 @@ const LocalFile = () => {
     e.preventDefault()
 
     // conditions for fill the blanks
-    if (!bookName || !writerName || !pageNumber) {
+    if (
+      !bookProperties.bookName ||
+      !bookProperties.writerName ||
+      !bookProperties.pageNumber
+    ) {
       setInfo('Please fill the blanks')
     } else {
       id = new Date().getTime().toString()
       const newBook = {
         id: id,
-        bookName: bookName,
-        writerName: writerName,
-        pageNumber: pageNumber,
+        bookName: bookProperties.bookName,
+        writerName: bookProperties.writerName,
+        pageNumber: bookProperties.pageNumber,
       }
-
       setList([...list, newBook])
-
-      setBookName('')
-      setWriterName('')
-      setPageNumber('')
+      setBookProperties({ bookName: '', writerName: '', pageNumber: '' })
       setInfo('Book created')
       axios.post(
         'https://whispering-island-87382.herokuapp.com/books/localfile',
@@ -67,14 +69,10 @@ const LocalFile = () => {
   return (
     <div>
       <CreateBook
-        bookName={bookName}
-        writerName={writerName}
-        pageNumber={pageNumber}
         handleSubmit={handleSubmit}
         info={info}
-        setBookName={setBookName}
-        setWriterName={setWriterName}
-        setPageNumber={setPageNumber}
+        bookProperties={bookProperties}
+        setBookProperties={setBookProperties}
       />
       <BookList
         items={list}

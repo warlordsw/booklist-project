@@ -10,10 +10,12 @@ const FireBaseHome = () => {
   //state hooks
   const [list, setList] = useState([])
   const [loading, setLoading] = useState(true)
-  const [bookName, setBookName] = useState('')
-  const [writerName, setWriterName] = useState('')
-  const [pageNumber, setPageNumber] = useState('')
   const [info, setInfo] = useState('')
+  const [bookProperties, setBookProperties] = useState({
+    bookName: '',
+    writerName: '',
+    pageNumber: '',
+  })
   let id
   // Function for get all document data from Firestore database and map it.
   const getBookList = () => {
@@ -44,9 +46,9 @@ const FireBaseHome = () => {
   async function sendDatabase(firebase) {
     await firebase.firestore().collection('books').doc(id).set({
       id: id,
-      bookName: bookName,
-      writerName: writerName,
-      pageNumber: pageNumber,
+      bookName: bookProperties.bookName,
+      writerName: bookProperties.writerName,
+      pageNumber: bookProperties.pageNumber,
     })
   }
 
@@ -55,21 +57,22 @@ const FireBaseHome = () => {
     e.preventDefault()
 
     // conditions for fill the blanks
-    if (!bookName || !writerName || !pageNumber) {
+    if (
+      !bookProperties.bookName ||
+      !bookProperties.writerName ||
+      !bookProperties.pageNumber
+    ) {
       setInfo('Please fill the blanks')
     } else {
       id = new Date().getTime().toString()
       const newBook = {
         id: id,
-        title: bookName,
-        writer: writerName,
-        pageCount: pageNumber,
+        title: bookProperties.bookName,
+        writer: bookProperties.writerName,
+        pageCount: bookProperties.pageNumber,
       }
       setList([...list, newBook])
-
-      setBookName('')
-      setWriterName('')
-      setPageNumber('')
+      setBookProperties({ bookName: '', writerName: '', pageNumber: '' })
       setInfo('Book created')
       sendDatabase(bookData.firebase)
       getBookList()
@@ -95,14 +98,10 @@ const FireBaseHome = () => {
   return (
     <div>
       <CreateBook
-        bookName={bookName}
-        writerName={writerName}
-        pageNumber={pageNumber}
         handleSubmit={handleSubmit}
         info={info}
-        setBookName={setBookName}
-        setWriterName={setWriterName}
-        setPageNumber={setPageNumber}
+        bookProperties={bookProperties}
+        setBookProperties={setBookProperties}
       />
       {loading ? (
         <h1 className='text-6xl text-center mt-10 text-white'>Loading...</h1>

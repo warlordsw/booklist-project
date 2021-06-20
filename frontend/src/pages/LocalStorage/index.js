@@ -14,11 +14,13 @@ const getLocalStorage = () => {
 const LocalStorage = () => {
   //state hooks
   const [list, setList] = useState(getLocalStorage)
-  const [bookName, setBookName] = useState('')
-  const [writerName, setWriterName] = useState('')
-  const [pageNumber, setPageNumber] = useState('')
   const [info, setInfo] = useState('')
   const [image, setImage] = useState('')
+  const [bookProperties, setBookProperties] = useState({
+    bookName: '',
+    writerName: '',
+    pageNumber: '',
+  })
   //const [uploadUrl, setUploadUrl] = useState('')
   let id
 
@@ -26,7 +28,12 @@ const LocalStorage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     // conditions for fill the blanks
-    if (!bookName || !writerName || !pageNumber || !image) {
+    if (
+      !bookProperties.bookName ||
+      !bookProperties.writerName ||
+      !bookProperties.pageNumber ||
+      !image
+    ) {
       setInfo('Please fill the blanks')
     } else {
       try {
@@ -46,16 +53,14 @@ const LocalStorage = () => {
         id = new Date().getTime().toString()
         const newBook = {
           id: id,
-          bookName: bookName,
-          writerName: writerName,
-          pageNumber: pageNumber,
+          bookName: bookProperties.bookName,
+          writerName: bookProperties.writerName,
+          pageNumber: bookProperties.pageNumber,
           uploadUrl: uploadResult,
         }
 
         setList([...list, newBook])
-        setBookName('')
-        setWriterName('')
-        setPageNumber('')
+        setBookProperties({ bookName: '', writerName: '', pageNumber: '' })
         setInfo('Book created')
         setImage('')
       } catch (error) {
@@ -82,15 +87,11 @@ const LocalStorage = () => {
   return (
     <div>
       <CreateBook
-        bookName={bookName}
-        writerName={writerName}
-        pageNumber={pageNumber}
         handleSubmit={handleSubmit}
         info={info}
-        setBookName={setBookName}
-        setWriterName={setWriterName}
-        setPageNumber={setPageNumber}
         setImage={setImage}
+        bookProperties={bookProperties}
+        setBookProperties={setBookProperties}
       />
 
       <BookList
