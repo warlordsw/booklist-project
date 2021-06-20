@@ -38,12 +38,13 @@ const Register = () => {
     <div>
       <Auth />
       <div>
-        <div className='bg-red-200 mx-auto w-96 rounded-lg flex justify-center mt-20'>
+        <div className='bg-red-200 mx-auto w-96 rounded-lg mt-20'>
           <form onSubmit={handleSubmit}>
             <div>
-              <div className='p-3 text-center'>
-                <h6>Username </h6>
+              <div className='px-12 py-2 mx-12 text-center'>
+                <label htmlFor='username-input'>Username</label>
                 <input
+                  id='username-input'
                   onChange={handleChange}
                   name='userName'
                   className='rounded-md'
@@ -52,9 +53,10 @@ const Register = () => {
                   disabled={loading}
                 />
               </div>
-              <div className='p-3 text-center'>
-                <h6>Email </h6>
+              <div className='px-12 py-2 mx-12 text-center'>
+                <label htmlFor='email-input'>Email</label>
                 <input
+                  id='email-input'
                   onChange={handleChange}
                   name='email'
                   className='rounded-md'
@@ -63,9 +65,10 @@ const Register = () => {
                   disabled={loading}
                 />
               </div>
-              <div className='p-3 text-center'>
-                <h6>Password</h6>
+              <div className='px-12 py-2 mx-12 text-center'>
+                <label htmlFor='password-input'>Password</label>
                 <input
+                  id='password-input'
                   onChange={handleChange}
                   name='password'
                   className='rounded-md'
@@ -74,9 +77,10 @@ const Register = () => {
                   disabled={loading}
                 />
               </div>
-              <div className='p-3 text-center'>
-                <h6>Confirm Password</h6>
+              <div className='px-12 py-2 mx-12 text-center'>
+                <label htmlFor='cf-pass-input'>Confirm Password</label>
                 <input
+                  id='cf-pass-input'
                   onChange={handleChange}
                   name='confirmPassword'
                   className='rounded-md'
