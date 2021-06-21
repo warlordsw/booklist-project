@@ -60,7 +60,7 @@ const Mongodbhome = () => {
           }
         )
         let result = await imgresponse.json()
-        const uploadResult = result.url
+        const uploadResult = result.secure_url
         id = new Date().getTime().toString()
         const newBook = {
           id: id,
