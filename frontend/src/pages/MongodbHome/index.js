@@ -42,7 +42,8 @@ const Mongodbhome = () => {
     if (
       !bookProperties.bookName ||
       !bookProperties.writerName ||
-      !bookProperties.pageNumber
+      !bookProperties.pageNumber ||
+      !image
     ) {
       setInfo('Please fill the blanks')
     } else {
