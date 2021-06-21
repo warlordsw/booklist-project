@@ -29,6 +29,7 @@ const Mongodbhome = () => {
     pageNumber: '',
   })
   const [info, setInfo] = useState('')
+  const [image, setImage] = useState('')
   let id
   const history = useHistory()
   const userDetails = useAuthState()
@@ -45,15 +46,28 @@ const Mongodbhome = () => {
     ) {
       setInfo('Please fill the blanks')
     } else {
-      id = new Date().getTime().toString()
-      const newBook = {
-        id: id,
-        bookName: bookProperties.bookName,
-        writerName: bookProperties.writerName,
-        pageNumber: bookProperties.pageNumber,
-      }
-
       try {
+        const data = new FormData()
+        data.append('file', image)
+        data.append('upload_preset', 'book-list-project')
+        data.append('cloud_name', 'book-list')
+        let imgresponse = await fetch(
+          'https://api.cloudinary.com/v1_1/book-list/image/upload',
+          {
+            method: 'POST',
+            body: data,
+          }
+        )
+        let result = await imgresponse.json()
+        const uploadResult = result.url
+        id = new Date().getTime().toString()
+        const newBook = {
+          id: id,
+          bookName: bookProperties.bookName,
+          writerName: bookProperties.writerName,
+          pageNumber: bookProperties.pageNumber,
+          uploadUrl: uploadResult,
+        }
         let response = await createBook(dispatch, {
           newBook: newBook,
           _id: userDetails.userId,
@@ -68,6 +82,7 @@ const Mongodbhome = () => {
         setList([...list, newBook])
         setBookProperties({ bookName: '', writerName: '', pageNumber: '' })
         setInfo('Book created')
+        setImage('')
       } catch (error) {
         console.log(error)
       }
@@ -138,6 +153,7 @@ const Mongodbhome = () => {
           handleSubmit={handleSubmit}
           bookProperties={bookProperties}
           setBookProperties={setBookProperties}
+          setImage={setImage}
         />
         {loading ? (
           <h1 className='text-6xl text-center mt-10 text-white'>Loading...</h1>
