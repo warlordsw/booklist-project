@@ -6,7 +6,7 @@ import mongoose from 'mongoose'
 const app = express()
 app.use(
   cors({
-    origin: 'https://booklist-project-21.netlify.app',
+    origin: 'https://booklist-project-21b.netlify.app',
     credentials: true,
   })
 )
