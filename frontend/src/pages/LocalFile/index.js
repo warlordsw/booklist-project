@@ -40,7 +40,7 @@ const LocalFile = () => {
           }
         )
         let result = await response.json()
-        const uploadResult = result.url
+        const uploadResult = result.secure_url
         id = new Date().getTime().toString()
         const newBook = {
           id: id,
