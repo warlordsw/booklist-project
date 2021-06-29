@@ -11,34 +11,53 @@ const LocalFile = () => {
     pageNumber: '',
   })
   const [info, setInfo] = useState('')
+  const [image, setImage] = useState('')
   let id
 
   //Function for submit button
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
 
     // conditions for fill the blanks
     if (
       !bookProperties.bookName ||
       !bookProperties.writerName ||
-      !bookProperties.pageNumber
+      !bookProperties.pageNumber ||
+      !image
     ) {
       setInfo('Please fill the blanks')
     } else {
-      id = new Date().getTime().toString()
-      const newBook = {
-        id: id,
-        bookName: bookProperties.bookName,
-        writerName: bookProperties.writerName,
-        pageNumber: bookProperties.pageNumber,
-      }
-      setList([...list, newBook])
-      setBookProperties({ bookName: '', writerName: '', pageNumber: '' })
-      setInfo('Book created')
-      axios.post(
-        'https://whispering-island-87382.herokuapp.com/books/localfile',
-        [...list, newBook]
-      )
+      try {
+        const data = new FormData()
+        data.append('file', image)
+        data.append('upload_preset', 'book-list-project')
+        data.append('cloud_name', 'book-list')
+        let response = await fetch(
+          'https://api.cloudinary.com/v1_1/book-list/image/upload',
+          {
+            method: 'POST',
+            body: data,
+          }
+        )
+        let result = await response.json()
+        const uploadResult = result.url
+        id = new Date().getTime().toString()
+        const newBook = {
+          id: id,
+          bookName: bookProperties.bookName,
+          writerName: bookProperties.writerName,
+          pageNumber: bookProperties.pageNumber,
+          uploadUrl: uploadResult,
+        }
+        setList([...list, newBook])
+        setBookProperties({ bookName: '', writerName: '', pageNumber: '' })
+        setInfo('Book created')
+        setImage('')
+        axios.post(
+          'https://whispering-island-87382.herokuapp.com/books/localfile',
+          [...list, newBook]
+        )
+      } catch (error) {}
     }
   }
 
@@ -73,6 +92,7 @@ const LocalFile = () => {
         info={info}
         bookProperties={bookProperties}
         setBookProperties={setBookProperties}
+        setImage={setImage}
       />
       <BookList
         items={list}
