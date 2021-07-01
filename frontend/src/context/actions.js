@@ -31,11 +31,11 @@ export const loginUser = async (dispatch, loginPayload) => {
 
 //create a user in database and localstorage
 
-export const registerUser = async (dispatch, loginPayload) => {
+export const registerUser = async (dispatch, registerPayload) => {
   const requestOptions = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(loginPayload),
+    body: JSON.stringify(registerPayload),
   }
 
   try {
