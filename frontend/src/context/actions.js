@@ -44,8 +44,8 @@ export const registerUser = async (dispatch, loginPayload) => {
     let data = await response.json()
 
     if (data.result) {
-      localStorage.setItem('currentUser', JSON.stringify(data))
       dispatch({ type: 'REGISTER_SUCCESS', payload: data })
+      localStorage.setItem('currentUser', JSON.stringify(data))
       return data
     }
     dispatch({ type: 'LOGIN_ERROR', error: data.errors[0] })
