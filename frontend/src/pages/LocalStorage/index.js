@@ -17,6 +17,8 @@ const LocalStorage = () => {
   const [loading, setLoading] = useState(false)
   const [info, setInfo] = useState('')
   const [image, setImage] = useState('')
+  const [isUploaded, setIsUploaded] = useState(true)
+  const [uploadInfo, setUploadInfo] = useState({ uploading: false, info: '' })
   const [bookProperties, setBookProperties] = useState({
     bookName: '',
     writerName: '',
@@ -44,7 +46,8 @@ const LocalStorage = () => {
             image.type === 'image/png' ||
             image.type === 'image/jpg'
           ) {
-            setInfo('Uploading')
+            setIsUploaded(false)
+            setUploadInfo({ uploading: true, info: 'Uploading' })
             const data = new FormData()
             data.append('file', image)
             data.append('upload_preset', 'book-list-project')
@@ -58,7 +61,6 @@ const LocalStorage = () => {
             )
             let result = await response.json()
             const uploadResult = result.eager[0].secure_url
-
             id = new Date().getTime().toString()
             const newBook = {
               id: id,
@@ -72,7 +74,9 @@ const LocalStorage = () => {
             setBookProperties({ bookName: '', writerName: '', pageNumber: '' })
             setInfo('Book created')
             setImage('')
+            setIsUploaded(true)
             setLoading(false)
+            setUploadInfo({ uploading: false, info: '' })
           } else {
             setLoading(false)
             setInfo('image type must be jpg, jpeg or png')
@@ -99,7 +103,6 @@ const LocalStorage = () => {
 
   // Render hook - It is working when rendering happens. - [list] means it is only working when list changes.
   useEffect(() => {
-    setImage('')
     localStorage.setItem('liste', JSON.stringify(list))
   }, [list])
 
@@ -119,6 +122,8 @@ const LocalStorage = () => {
         bookProperties={bookProperties}
         setBookProperties={setBookProperties}
         loading={loading}
+        isUploaded={isUploaded}
+        uploadInfo={uploadInfo}
       />
       <BookList
         items={list}

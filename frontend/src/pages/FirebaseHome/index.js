@@ -12,6 +12,8 @@ const FireBaseHome = () => {
   const [loading, setLoading] = useState(true)
   const [info, setInfo] = useState('')
   const [image, setImage] = useState('')
+  const [isUploaded, setIsUploaded] = useState(true)
+  const [uploadInfo, setUploadInfo] = useState({ uploading: false, info: '' })
   const [bookProperties, setBookProperties] = useState({
     bookName: '',
     writerName: '',
@@ -56,7 +58,7 @@ const FireBaseHome = () => {
         }
       )
       let result = await response.json()
-      uploadResult = result.secure_url
+      uploadResult = result.eager[0].secure_url
       await firebase.firestore().collection('books').doc(id).set({
         id: id,
         bookName: bookProperties.bookName,
@@ -83,18 +85,40 @@ const FireBaseHome = () => {
       setInfo('Please fill the blanks')
     } else {
       try {
-        id = new Date().getTime().toString()
-        await sendDatabase(bookData.firebase)
-        const newBook = {
-          id: id,
-          bookName: bookProperties.bookName,
-          writerName: bookProperties.writerName,
-          pageNumber: bookProperties.pageNumber,
-          uploadUrl: uploadResult,
+        setLoading(true)
+        if (image.size < 3000000) {
+          if (
+            image.type === 'image/jpeg' ||
+            image.type === 'image/png' ||
+            image.type === 'image/jpg'
+          ) {
+            setIsUploaded(false)
+            setUploadInfo({ uploading: true, info: 'Uploading' })
+            id = new Date().getTime().toString()
+            await sendDatabase(bookData.firebase)
+            const newBook = {
+              id: id,
+              bookName: bookProperties.bookName,
+              writerName: bookProperties.writerName,
+              pageNumber: bookProperties.pageNumber,
+              uploadUrl: uploadResult,
+            }
+            setList([...list, newBook])
+            setBookProperties({ bookName: '', writerName: '', pageNumber: '' })
+            setInfo('Book created')
+            setIsUploaded(true)
+            setLoading(false)
+            setUploadInfo({ uploading: false, info: '' })
+            setImage('')
+          } else {
+            setLoading(false)
+            setInfo('image type must be jpg, jpeg or png')
+          }
+        } else {
+          setLoading(false)
+          setInfo('file size is bigger than 3mb')
         }
-        setList([...list, newBook])
-        setBookProperties({ bookName: '', writerName: '', pageNumber: '' })
-        setInfo('Book created')
+
         //await getBookList()
       } catch (error) {
         console.log(error)
@@ -118,6 +142,13 @@ const FireBaseHome = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setInfo('')
+    }, 2000)
+    return () => clearTimeout(timeout)
+  }, [info])
+
   return (
     <div>
       <CreateBook
@@ -126,16 +157,15 @@ const FireBaseHome = () => {
         bookProperties={bookProperties}
         setBookProperties={setBookProperties}
         setImage={setImage}
+        loading={loading}
+        isUploaded={isUploaded}
+        uploadInfo={uploadInfo}
       />
-      {loading ? (
-        <h1 className='text-6xl text-center mt-10 text-white'>Loading...</h1>
-      ) : (
-        <BookList
-          items={list}
-          removeSpecificBook={removeSpecificBook}
-          removeAllBooks={removeAllBooks}
-        />
-      )}
+      <BookList
+        items={list}
+        removeSpecificBook={removeSpecificBook}
+        removeAllBooks={removeAllBooks}
+      />
     </div>
   )
 }
