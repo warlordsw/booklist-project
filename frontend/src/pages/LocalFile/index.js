@@ -109,6 +109,13 @@ const LocalFile = () => {
       })
   }, [])
 
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setInfo('')
+    }, 2000)
+    return () => clearTimeout(timeout)
+  }, [info])
+
   return (
     <div>
       <CreateBook
