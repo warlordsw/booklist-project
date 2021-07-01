@@ -7,6 +7,8 @@ const CreateBook = ({
   setBookProperties,
   bookProperties,
   loading,
+  isUploaded,
+  uploadInfo,
 }) => {
   return (
     <div>
@@ -77,13 +79,15 @@ const CreateBook = ({
                 <label htmlFor='upload-image'>Upload Image</label>
               </div>
               <div className='p-3'>
-                <input
-                  accept='.jpg, .png, .jpeg'
-                  disabled={loading}
-                  id='upload-image'
-                  type='file'
-                  onChange={(e) => setImage(e.target.files[0])}
-                />
+                {isUploaded && (
+                  <input
+                    accept='.jpg, .png, .jpeg'
+                    disabled={loading}
+                    id='upload-image'
+                    type='file'
+                    onChange={(e) => setImage(e.target.files[0])}
+                  />
+                )}
               </div>
             </div>
             <div className='flex justify-center p-3'>
@@ -95,7 +99,11 @@ const CreateBook = ({
               </button>
             </div>
             <div className='p-3 text-center  text-white'>
-              <h3>{info}</h3>
+              {uploadInfo.uploading ? (
+                <h3>{uploadInfo.info}</h3>
+              ) : (
+                <h3>{info}</h3>
+              )}
             </div>
           </div>
         </form>
