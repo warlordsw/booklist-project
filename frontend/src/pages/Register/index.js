@@ -14,7 +14,7 @@ const Register = () => {
   const [registerData, setRegisterData] = useState(initialState)
   const history = useHistory()
   const dispatch = useAuthDispatch()
-  const { loading } = useAuthState
+  const { loading } = useAuthState()
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
