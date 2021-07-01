@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import {
   useAuthDispatch,
@@ -30,6 +30,8 @@ const Mongodbhome = () => {
   })
   const [info, setInfo] = useState('')
   const [image, setImage] = useState('')
+  const [isUploaded, setIsUploaded] = useState(true)
+  const [uploadInfo, setUploadInfo] = useState({ uploading: false, info: '' })
   let id
   const history = useHistory()
   const userDetails = useAuthState()
@@ -48,47 +50,73 @@ const Mongodbhome = () => {
       setInfo('Please fill the blanks')
     } else {
       try {
-        const data = new FormData()
-        data.append('file', image)
-        data.append('upload_preset', 'book-list-project')
-        data.append('cloud_name', 'book-list')
-        let imgresponse = await fetch(
-          'https://api.cloudinary.com/v1_1/book-list/image/upload',
-          {
-            method: 'POST',
-            body: data,
+        setLoading(true)
+        if (image.size < 3000000) {
+          if (
+            image.type === 'image/jpeg' ||
+            image.type === 'image/png' ||
+            image.type === 'image/jpg'
+          ) {
+            setIsUploaded(false)
+            setUploadInfo({ uploading: true, info: 'Uploading' })
+            const data = new FormData()
+            data.append('file', image)
+            data.append('upload_preset', 'book-list-project')
+            data.append('cloud_name', 'book-list')
+            let imgresponse = await fetch(
+              'https://api.cloudinary.com/v1_1/book-list/image/upload',
+              {
+                method: 'POST',
+                body: data,
+              }
+            )
+            let result = await imgresponse.json()
+            const uploadResult = result.eager[0].secure_url
+            id = new Date().getTime().toString()
+            const newBook = {
+              id: id,
+              bookName: bookProperties.bookName,
+              writerName: bookProperties.writerName,
+              pageNumber: bookProperties.pageNumber,
+              uploadUrl: uploadResult,
+            }
+            let response = await createBook(dispatch, {
+              newBook: newBook,
+              _id: userDetails.userId,
+              token: userDetails.token,
+            })
+            if (!response) {
+              localStorage.removeItem('currentUser')
+              history.push('/login')
+              return
+            }
+            setList([...list, newBook])
+            setBookProperties({ bookName: '', writerName: '', pageNumber: '' })
+            setInfo('Book created')
+            setImage('')
+            setIsUploaded(true)
+            setLoading(false)
+            setUploadInfo({ uploading: false, info: '' })
+          } else {
+            setLoading(false)
+            setInfo('image type must be jpg, jpeg or png')
           }
-        )
-        let result = await imgresponse.json()
-        const uploadResult = result.secure_url
-        id = new Date().getTime().toString()
-        const newBook = {
-          id: id,
-          bookName: bookProperties.bookName,
-          writerName: bookProperties.writerName,
-          pageNumber: bookProperties.pageNumber,
-          uploadUrl: uploadResult,
+        } else {
+          setLoading(false)
+          setInfo('file size is bigger than 3mb')
         }
-        let response = await createBook(dispatch, {
-          newBook: newBook,
-          _id: userDetails.userId,
-          token: userDetails.token,
-        })
-        if (!response) {
-          localStorage.removeItem('currentUser')
-          history.push('/login')
-          return
-        }
-
-        setList([...list, newBook])
-        setBookProperties({ bookName: '', writerName: '', pageNumber: '' })
-        setInfo('Book created')
-        setImage('')
       } catch (error) {
         console.log(error)
       }
     }
   }
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setInfo('')
+    }, 2000)
+    return () => clearTimeout(timeout)
+  }, [info])
 
   const removeAllBooks = async () => {
     try {
@@ -155,16 +183,15 @@ const Mongodbhome = () => {
           bookProperties={bookProperties}
           setBookProperties={setBookProperties}
           setImage={setImage}
+          loading={loading}
+          isUploaded={isUploaded}
+          uploadInfo={uploadInfo}
         />
-        {loading ? (
-          <h1 className='text-6xl text-center mt-10 text-white'>Loading...</h1>
-        ) : (
-          <BookList
-            items={list}
-            removeAllBooks={removeAllBooks}
-            removeSpecificBook={removeSpecificBook}
-          />
-        )}
+        <BookList
+          items={list}
+          removeAllBooks={removeAllBooks}
+          removeSpecificBook={removeSpecificBook}
+        />
       </div>
     </div>
   )
