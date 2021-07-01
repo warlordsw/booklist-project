@@ -5,6 +5,7 @@ import BookList from '../../components/BookList'
 
 const LocalFile = () => {
   const [list, setList] = useState([])
+  const [loading, setLoading] = useState(false)
   const [bookProperties, setBookProperties] = useState({
     bookName: '',
     writerName: '',
@@ -12,6 +13,9 @@ const LocalFile = () => {
   })
   const [info, setInfo] = useState('')
   const [image, setImage] = useState('')
+  const [isUploaded, setIsUploaded] = useState(true)
+  const [uploadInfo, setUploadInfo] = useState({ uploading: false, info: '' })
+
   let id
 
   //Function for submit button
@@ -28,35 +32,55 @@ const LocalFile = () => {
       setInfo('Please fill the blanks')
     } else {
       try {
-        const data = new FormData()
-        data.append('file', image)
-        data.append('upload_preset', 'book-list-project')
-        data.append('cloud_name', 'book-list')
-        let response = await fetch(
-          'https://api.cloudinary.com/v1_1/book-list/image/upload',
-          {
-            method: 'POST',
-            body: data,
+        setLoading(true)
+        if (image.size < 3000000) {
+          if (
+            image.type === 'image/jpeg' ||
+            image.type === 'image/png' ||
+            image.type === 'image/jpg'
+          ) {
+            setIsUploaded(false)
+            setUploadInfo({ uploading: true, info: 'Uploading' })
+            const data = new FormData()
+            data.append('file', image)
+            data.append('upload_preset', 'book-list-project')
+            data.append('cloud_name', 'book-list')
+            let response = await fetch(
+              'https://api.cloudinary.com/v1_1/book-list/image/upload',
+              {
+                method: 'POST',
+                body: data,
+              }
+            )
+            let result = await response.json()
+            const uploadResult = result.eager[0].secure_url
+            id = new Date().getTime().toString()
+            const newBook = {
+              id: id,
+              bookName: bookProperties.bookName,
+              writerName: bookProperties.writerName,
+              pageNumber: bookProperties.pageNumber,
+              uploadUrl: uploadResult,
+            }
+            setList([...list, newBook])
+            setBookProperties({ bookName: '', writerName: '', pageNumber: '' })
+            setInfo('Book created')
+            setImage('')
+            axios.post(
+              'https://whispering-island-87382.herokuapp.com/books/localfile',
+              [...list, newBook]
+            )
+            setIsUploaded(true)
+            setLoading(false)
+            setUploadInfo({ uploading: false, info: '' })
+          } else {
+            setLoading(false)
+            setInfo('image type must be jpg, jpeg or png')
           }
-        )
-        let result = await response.json()
-        const uploadResult = result.secure_url
-        id = new Date().getTime().toString()
-        const newBook = {
-          id: id,
-          bookName: bookProperties.bookName,
-          writerName: bookProperties.writerName,
-          pageNumber: bookProperties.pageNumber,
-          uploadUrl: uploadResult,
+        } else {
+          setLoading(false)
+          setInfo('file size is bigger than 3mb')
         }
-        setList([...list, newBook])
-        setBookProperties({ bookName: '', writerName: '', pageNumber: '' })
-        setInfo('Book created')
-        setImage('')
-        axios.post(
-          'https://whispering-island-87382.herokuapp.com/books/localfile',
-          [...list, newBook]
-        )
       } catch (error) {}
     }
   }
@@ -93,6 +117,9 @@ const LocalFile = () => {
         bookProperties={bookProperties}
         setBookProperties={setBookProperties}
         setImage={setImage}
+        loading={loading}
+        isUploaded={isUploaded}
+        uploadInfo={uploadInfo}
       />
       <BookList
         items={list}
