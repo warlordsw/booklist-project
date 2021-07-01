@@ -6,6 +6,7 @@ const CreateBook = ({
   setImage,
   setBookProperties,
   bookProperties,
+  loading,
 }) => {
   return (
     <div>
@@ -20,6 +21,7 @@ const CreateBook = ({
             <div className='p-3 mx-8 text-center'>
               <label htmlFor='book-name'>Enter Book Name</label>
               <input
+                disabled={loading}
                 id='book-name'
                 name='bookName'
                 value={bookProperties.bookName}
@@ -37,6 +39,7 @@ const CreateBook = ({
             <div className='p-3 mx-8 text-center'>
               <label htmlFor='writer-name'>Enter Writer Name</label>
               <input
+                disabled={loading}
                 id='writer-name'
                 name='writerName'
                 value={bookProperties.writerName}
@@ -54,6 +57,7 @@ const CreateBook = ({
             <div className='p-3 mx-8 text-center'>
               <label htmlFor='page-number'>Enter Total Page Number</label>
               <input
+                disabled={loading}
                 id='page-number'
                 name='pageNumber'
                 value={bookProperties.pageNumber}
@@ -74,6 +78,8 @@ const CreateBook = ({
               </div>
               <div className='p-3'>
                 <input
+                  accept='.jpg, .png, .jpeg'
+                  disabled={loading}
                   id='upload-image'
                   type='file'
                   onChange={(e) => setImage(e.target.files[0])}
@@ -81,7 +87,10 @@ const CreateBook = ({
               </div>
             </div>
             <div className='flex justify-center p-3'>
-              <button className='bg-blue-500 py-3 px-6 rounded-full text-white'>
+              <button
+                disabled={loading}
+                className='bg-blue-500 py-3 px-6 rounded-full text-white'
+              >
                 Submit
               </button>
             </div>
